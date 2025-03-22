@@ -4,7 +4,7 @@ import { getArticles, searchArticles } from "../services/articleService"
 import { LineShadowText } from "../components/magicui/line-shadow-text"
 import ScrollToTopButton from "../components/ScrollToTopButton"
 import SearchInput  from "../components/SearchInput"
-
+import ParticleButton  from "../components/kokonutui/particle-button"
 
 import Image from "next/image"
 import Link from "next/link"
@@ -21,15 +21,25 @@ type Article = {
 }
 
 const Home = () => {
-  const [articles, setArticles] = useState<Article[]>([]); // Initialize as empty array
+  const [articles, setArticles] = useState<Article[] | null>(null); // Initialize as null to indicate loading state
   const [searchQuery, setSearchQuery] = useState("")
   const [filteredArticles, setFilteredArticles] = useState<Article[]>([])
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadInitialArticles = async () => {
-      const initialArticles = await getArticles();
-      setArticles(initialArticles || []); // Use empty array if null
-      setFilteredArticles(initialArticles || []); //Initialize filtered articles too
+      setLoading(true); //Start loading
+      try {
+        const initialArticles = await getArticles();
+        setArticles(initialArticles || []);
+        setFilteredArticles(initialArticles || []);
+      } catch (error) {
+        console.error("Error fetching initial articles:", error);
+        setArticles([]); // Set to empty array on error for safe rendering
+        setFilteredArticles([]);
+      } finally {
+        setLoading(false); //End loading regardless of success or failure
+      }
     };
 
     loadInitialArticles();
@@ -42,20 +52,30 @@ const Home = () => {
   useEffect(() => {
     const fetchSearchResults = async () => {
       if (searchQuery.trim() === "") {
-        setFilteredArticles(articles)
+        setFilteredArticles(articles || []); // Default to empty array if articles is null
       } else {
         try {
           const searchResults = await searchArticles(searchQuery)
-          setFilteredArticles(searchResults)
+          setFilteredArticles(searchResults);
         } catch (error) {
-          console.error("Error searching articles with new endpoint:", error)
+          console.error("Error searching articles with new endpoint:", error);
+          setFilteredArticles([]); // Set to empty array on error
         }
       }
     }
 
-    fetchSearchResults()
-  }, [searchQuery, articles]) // Add articles to the dependency array
+    fetchSearchResults();
+  }, [searchQuery, articles]);
 
+  const handleReadMoreClick = async (e: React.MouseEvent<HTMLButtonElement>, articleId: number) => {
+      // Add any specific logic you want to perform on click before navigating
+      console.log(`Read More clicked for article ID: ${articleId}`);
+  };
+
+
+  if (loading) {
+    return <p>Loading articles...</p>; // Display a loading message
+  }
 
   return (
     <div>
@@ -83,7 +103,7 @@ const Home = () => {
         {/* Hero Image Section */}
         <section className="hero-image-section">
           <Image
-            src="/images/hero-image.jpg" // Replace with your actual image URL
+            src="/images/hero-image.jpg"
             alt="TheDrop - Hip Hop Newsletter"
             className="hero-image"
             width={1200}
@@ -92,9 +112,8 @@ const Home = () => {
             priority
           />
         </section>
-        {filteredArticles && filteredArticles.length > 0 ? (
+        {articles && articles.length > 0 ? (
           <div className="articles-wrapper">
-            {/* Wrapper for articles for potential layout adjustments */}
             {filteredArticles.map((article) => (
               <article key={article.id} className="article-section">
                 {/* Use <article> for semantic correctness */}
@@ -107,7 +126,7 @@ const Home = () => {
                   height={200}
                   style={{ width: "100%", height: "auto" }}
                 />
-                <p className="article-excerpt">{article.generated_content.substring(0, 800)}...</p>
+                <p className="article-excerpt">{article.content.substring(0, 800)}...</p>
                 <div className="article-meta">
                   {/* Meta information container */}
                   <span className="article-date">
@@ -129,9 +148,13 @@ const Home = () => {
                     </div>
                   )}
                 </div>
-                <Link href={`/article/${article.id}`} className="cta-button">
-                  Read More
-                </Link>
+                <ParticleButton
+                    className="cta-button"
+                    bgColor="#3498db"
+                    onClick={(e) => handleReadMoreClick(e, article.id)} // Pass article id
+                >
+                    <Link href={`/article/${article.id}`}>Read More</Link>
+                </ParticleButton>
               </article>
             ))}
           </div>
