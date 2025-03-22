@@ -74,8 +74,14 @@ const Home = () => {
 
 
   if (loading) {
-    return <p>Loading articles...</p>; // Display a loading message
-  }
+      return (
+        <div className="newsletter-container py-8">
+          <div className="flex justify-center items-center min-h-[50vh]">
+            <div className="animate-pulse text-xl">Loading articles... Please wait</div>
+          </div>
+        </div>
+      )
+    }
 
   return (
     <div>
@@ -126,8 +132,8 @@ const Home = () => {
                   height={200}
                   style={{ width: "100%", height: "auto" }}
                 />
-                <p className="article-excerpt">{article.content.substring(0, 800)}...</p>
-                <div className="article-meta">
+<p className="article-excerpt">{article.excerpt ? article.excerpt : article.generated_content ? article.generated_content.substring(0, 800) + "..." : "No excerpt available."}</p>
+            <div className="article-meta">
                   {/* Meta information container */}
                   <span className="article-date">
                     {new Date(article.generated_at).toLocaleDateString(undefined, {
