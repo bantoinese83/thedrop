@@ -56,7 +56,7 @@ const Home = async () => {
                 <h2 className="article-title">{article.title}</h2>
                 {/* Future enhancement: Article Image */}
                 {/* {article.imageUrl && <img src={article.imageUrl || "/placeholder.svg"} alt={article.title} className="article-image" />} */}
-                <p className="article-excerpt">{article.content.substring(0, 200)}...</p>
+                <p className="article-excerpt">{article.generated_content.substring(0, 800)}...</p>
                 <div className="article-meta">
                   {" "}
                   {/* Meta information container */}
