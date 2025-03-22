@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import type { ButtonProps } from "@/components/ui/button";
 import { MousePointerClick } from "lucide-react";
 
+
 interface ParticleButtonProps extends ButtonProps {
     onSuccess?: () => void;
     successDuration?: number;
@@ -106,25 +107,29 @@ export default function ParticleButton({
         };
     }, []);
 
-    return (
-        <>
-            <SuccessParticles buttonRef={buttonRef} showParticles={showParticles} />
-            <Button
-                ref={buttonRef}
-                onClick={handleClick}
-                className={cn(
-                    "relative overflow-hidden", // Prevent particles from overflowing
-                    showParticles && "scale-95",
-                    "transition-transform duration-100",
-                    className
-                )}
-                disabled={disabled || isAnimating}
-                style={{ backgroundColor: bgColor }} // Apply bgColor as inline style
-                {...props}
-            >
-                {children}
-                <MousePointerClick className="h-4 w-4" />
-            </Button>
-        </>
-    );
-}
+return (
+  <>
+    <SuccessParticles buttonRef={buttonRef} showParticles={showParticles} />
+    <Button
+      ref={buttonRef}
+      onClick={handleClick}
+      className={cn(
+        "relative overflow-hidden", // Prevent particles from overflowing
+        showParticles && "scale-95",
+        "transition-transform duration-100",
+        "rounded-3xl", // Add border-radius: 15px 50px;
+        className
+      )}
+      disabled={disabled || isAnimating}
+      style={{
+        backgroundColor: bgColor,
+        borderRadius: "15px 50px" // Add border-radius: 15px 50px;
+      }}
+      {...props}
+    >
+      <div className="flex items-center justify-center">
+        {children}
+      </div>
+    </Button>
+  </>
+);

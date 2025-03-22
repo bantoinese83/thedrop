@@ -1,10 +1,12 @@
 "use client"
 
-import { getArticles, searchArticles } from "../services/articleService"
-import { LineShadowText } from "../components/magicui/line-shadow-text"
-import ScrollToTopButton from "../components/ScrollToTopButton"
-import SearchInput  from "../components/SearchInput"
-import ParticleButton  from "../.components/kokonutui/particle-button"
+import { getArticles, searchArticles } from "@/services/articleService"
+import { LineShadowText } from "@/components/magicui/line-shadow-text"
+import ScrollToTopButton from "@/components/ScrollToTopButton"
+import SearchInput  from "@/components/SearchInput"
+import ParticleButton  from "@/components/kokonutui/particle-button"
+import MarkdownRenderer from "@/components/markdown-renderer"
+import { MousePointerClick } from "lucide-react"
 
 import Image from "next/image"
 import Link from "next/link"
@@ -132,8 +134,11 @@ const Home = () => {
                   height={200}
                   style={{ width: "100%", height: "auto" }}
                 />
-<p className="article-excerpt fade-in">{article.excerpt ? article.excerpt : article.generated_content ? article.generated_content.substring(0, 800) + "..." : "No excerpt available."}</p>
+                <div className="article-content fade-in">
+                  <MarkdownRenderer content={article.excerpt} />
+                </div>
             <div className="article-meta fade-in">
+
                   {/* Meta information container */}
                   <span className="article-date">
                     {new Date(article.generated_at).toLocaleDateString(undefined, {
@@ -154,13 +159,16 @@ const Home = () => {
                     </div>
                   )}
                 </div>
-                <ParticleButton
-                    className="cta-button"
-                    bgColor="#3498db"
-                    onClick={(e) => handleReadMoreClick(e, article.id)} // Pass article id
-                >
-                    <Link href={`/article/${article.id}`}>Read More</Link>
-                </ParticleButton>
+              <ParticleButton
+                className="cta-button"
+                color-brand-primary="true"
+                onClick={(e) => handleReadMoreClick(e, article.id)} // Pass article id
+              >
+                <Link href={`/article/${article.id}`} className="flex items-center">
+                  <span>Read More</span>
+                  <MousePointerClick className="h-4 w-4 ml-2" />
+                </Link>
+              </ParticleButton>
               </article>
             ))}
           </div>

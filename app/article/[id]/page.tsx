@@ -5,24 +5,29 @@ import { useEffect, useState } from "react"
 import { getArticle, getArticles } from "@/services/articleService"
 import Link from "next/link"
 import Image from "next/image"
+import { ArrowLeft } from "lucide-react"
+import MarkdownRenderer from "@/components/markdown-renderer"
+import ParticleButton  from "@/components/kokonutui/particle-button"
 
 // Define the article type
 type Article = {
   id: number
   title: string
   content: string
+  generated_content?: string
   generated_at: string
   tags?: string[]
   category: string
-  imageUrl?: string;
+  imageUrl?: string
+  excerpt?: string
 }
 
-const ArticlePage = () => {
+export default function ArticlePage() {
   const params = useParams()
   const id = params.id
   const [article, setArticle] = useState<Article | null>(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     async function fetchArticleData() {
@@ -33,7 +38,7 @@ const ArticlePage = () => {
 
         // First, get all articles to find the one with matching ID
         const allArticles = await getArticles()
-        const articleMetadata = allArticles.find((a) => a.id === Number(id))
+        const articleMetadata = allArticles.find((a: any) => a.id === Number(id))
 
         if (!articleMetadata) {
           setError("Article not found")
@@ -52,9 +57,9 @@ const ArticlePage = () => {
 
         setArticle(fullArticle)
         setLoading(false)
-      } catch (err) {
+      } catch (err: any) {
         console.error("Error fetching article:", err)
-        setError("Failed to load article")
+        setError(err?.message || "Failed to load article")
         setLoading(false)
       }
     }
@@ -66,7 +71,7 @@ const ArticlePage = () => {
     return (
       <div className="newsletter-container py-8">
         <div className="flex justify-center items-center min-h-[50vh]">
-          <div className="animate-pulse text-xl">Loading...</div>
+          <div className="animate-pulse text-xl">Loading article...</div>
         </div>
       </div>
     )
@@ -78,6 +83,7 @@ const ArticlePage = () => {
         <div className="flex flex-col justify-center items-center min-h-[50vh]">
           <div className="text-red-500 mb-4">{error}</div>
           <Link href="/" className="cta-button">
+            <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Home
           </Link>
         </div>
@@ -91,6 +97,7 @@ const ArticlePage = () => {
         <div className="flex flex-col justify-center items-center min-h-[50vh]">
           <div className="mb-4">Article not found</div>
           <Link href="/" className="cta-button">
+            <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Home
           </Link>
         </div>
@@ -107,10 +114,14 @@ const ArticlePage = () => {
       })
     : "No date available"
 
+  // Use generated_content if available, otherwise fall back to content
+  const articleContent = article.generated_content || article.content
+
   return (
-    <div className="newsletter-container py-8">
+    <div className="newsletter-container py-8 fade-in">
       <article className="article-page">
         <h1 className="article-title text-4xl font-bold mb-6">{article.title}</h1>
+
         <div className="article-meta mb-6">
           <span className="article-date block mb-2">{formattedDate}</span>
           <span className="article-category block mb-2">Category: {article.category || "Uncategorized"}</span>
@@ -125,37 +136,50 @@ const ArticlePage = () => {
             </div>
           )}
         </div>
-        {article.imageUrl && (
-          <Image
-            src={article.imageUrl}
-            alt={article.title}
-            className="article-image"
-            width={400}
-            height={200}
-            style={{ width: "100%", height: "auto" }}
-          />
-        )}
-        {!article.imageUrl && (
-          <Image
-            src="/placeholder.svg"
-            alt="Placeholder image"
-            className="article-image"
-            width={400}
-            height={200}
-            style={{ width: "100%", height: "auto" }}
-          />
-        )}
-        <div className="article-content prose prose-lg max-w-none">
-          <p>{article.content}</p>
+
+        <div className="mb-8">
+          {article.imageUrl ? (
+            <Image
+              src={article.imageUrl || "/placeholder.svg"}
+              alt={article.title}
+              className="article-image rounded-lg shadow-md"
+              width={800}
+              height={400}
+              style={{ width: "100%", height: "auto" }}
+              priority
+            />
+          ) : (
+            <Image
+              src="/placeholder.svg"
+              alt="Placeholder image"
+              className="article-image rounded-lg shadow-md"
+              width={800}
+              height={400}
+              style={{ width: "100%", height: "auto" }}
+              priority
+            />
+          )}
         </div>
+
+        <div className="article-content slide-in">
+          <MarkdownRenderer content={articleContent} />
+        </div>
+
         <div className="mt-8">
-          <Link href="/" className="cta-button">
-            Back to Home
-          </Link>
+            <ParticleButton
+                className="cta-button"
+                color-brand-primary="true"
+                onClick={() => window.history.back()}
+            >
+                <span>Go Back</span>
+                            <ArrowLeft className="h-4 w-4 ml-2" />
+
+            </ParticleButton>
+
+
         </div>
       </article>
     </div>
   )
 }
 
-export default ArticlePage
