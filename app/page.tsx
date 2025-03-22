@@ -1,6 +1,7 @@
 import { getArticles } from "../services/articleService"
 import { LineShadowText } from "../components/magicui/line-shadow-text"
 import ScrollToTopButton from "../components/ScrollToTopButton"
+
 import Image from "next/image"
 import Link from "next/link"
 

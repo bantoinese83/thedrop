@@ -4,6 +4,7 @@ import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { getArticle, getArticles } from "@/services/articleService"
 import Link from "next/link"
+import ReactMarkdown from "react-markdown"
 
 // Define the article type
 type Article = {
@@ -124,7 +125,7 @@ const ArticlePage = () => {
           )}
         </div>
         <div className="article-content prose prose-lg max-w-none">
-          <p>{article.content}</p>
+          <ReactMarkdown>{article.content}</ReactMarkdown>
         </div>
         <div className="mt-8">
           <Link href="/" className="cta-button">
@@ -137,4 +138,3 @@ const ArticlePage = () => {
 }
 
 export default ArticlePage
-
