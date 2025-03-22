@@ -1,26 +1,413 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
+@custom-variant dark (&:is(.dark *)); /* Keep this if you're extending Tailwind, otherwise remove */
+
+/* ----------------------------------------
+   Color Variables (Semantic & Grouped) - THE DROP COLORS
+   ---------------------------------------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    /* Brand Colors - The Drop - Hip Hop Vibe */
+    --color-brand-primary: #ff3e4d;
+    --color-brand-accent: #ffd166;
+    --color-brand-error: #ff5252;
+
+    /* Text Colors */
+    --color-text-primary: #000000;
+    --color-text-secondary: #4a4a4a;
+
+    /* Background Colors */
+    --color-background-light: #f9f9f9;
+    --color-background-dark: #e0e0e0;
+
+    /* Neutral Colors */
+    --color-neutral-dark: #222222;
+    --color-neutral-gray: #777777;
+    --radius: 0.625rem;
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: oklch(0.205 0 0);
+    --primary-foreground: oklch(0.985 0 0);
+    --secondary: oklch(0.97 0 0);
+    --secondary-foreground: oklch(0.205 0 0);
+    --muted: oklch(0.97 0 0);
+    --muted-foreground: oklch(0.556 0 0);
+    --accent: oklch(0.97 0 0);
+    --accent-foreground: oklch(0.205 0 0);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(0.708 0 0);
+    --chart-1: oklch(0.646 0.222 41.116);
+    --chart-2: oklch(0.6 0.118 184.704);
+    --chart-3: oklch(0.398 0.07 227.392);
+    --chart-4: oklch(0.828 0.189 84.429);
+    --chart-5: oklch(0.769 0.188 70.08);
+    --sidebar: oklch(0.985 0 0);
+    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-primary: oklch(0.205 0 0);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.97 0 0);
+    --sidebar-accent-foreground: oklch(0.205 0 0);
+    --sidebar-border: oklch(0.922 0 0);
+    --sidebar-ring: oklch(0.708 0 0);
 }
+
+.dark {
+    /* Overriding for Dark Mode - THE DROP DARK */
+    --color-text-primary: #ffffff;
+    --color-text-secondary: var(--color-neutral-gray);
+    --color-background-light: #181818;
+    --color-background-dark: #282828;
+    --color-neutral-dark: #333333;
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.205 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.922 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.556 0 0);
+    --chart-1: oklch(0.488 0.243 264.376);
+    --chart-2: oklch(0.696 0.17 162.48);
+    --chart-3: oklch(0.769 0.188 70.08);
+    --chart-4: oklch(0.627 0.265 303.9);
+    --chart-5: oklch(0.645 0.246 16.439);
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.556 0 0);
+}
+
+/* ----------------------------------------
+   Base Styles: Body & Typography - THE DROP TYPOGRAPHY
+   ---------------------------------------- */
+body {
+    font-family: 'Poppins', sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--color-background-light);
+    color: var(--color-text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.7;
+    padding: 20px;
+}
+
+/* Container for Newsletter */
+.newsletter-container {
+    max-width: 800px;
+    margin: 0 auto;
+    /* Optional: background-color: white; for a distinct container background */
+    /* Optional: padding: 30px; for more padding inside the container */
+}
+
+/* ----------------------------------------
+   Newsletter Header - THE DROP HEADER
+   ---------------------------------------- */
+.newsletter-header {
+    text-align: center; /* Center header content */
+    margin-bottom: 30px; /* Space below header */
+}
+
+.newsletter-title {
+    font-size: 3rem; /* Larger title font size */
+    color: var(--color-text-primary);
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    display: flex; /* Use flex to align "The" and "Drop" inline */
+    justify-content: center; /* Center the title content horizontally */
+    align-items: baseline; /* Align items along the baseline to make "The" smaller */
+}
+
+.newsletter-title-prefix {
+    font-size: 1.5rem; /* Smaller prefix font size */
+    font-weight: 400; /* Lighter weight for the prefix */
+    margin-right: 5px; /* Space between prefix and title */
+}
+
+
+.newsletter-tagline {
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    font-style: italic; /* Italic tagline for a softer touch */
+}
+
+/* .newsletter-logo { /* If you add a logo image */
+/*     max-width: 150px;  Adjust size as needed */
+/*     margin: 0 auto 20px; Center logo above title */
+/*     display: block; */
+/* } */
+
+/* ----------------------------------------
+   Articles Wrapper - For layout control
+   ---------------------------------------- */
+.articles-wrapper {
+    /* You can add grid or flexbox layout here if you want multi-column layouts in the future */
+    /* Example for a 2-column layout on larger screens: */
+    /* @media (min-width: 768px) {
+    *     display: grid;
+    *     grid-template-columns: repeat(2, 1fr);
+    *     gap: 20px;
+    * } */
+}
+
+/* ----------------------------------------
+   Article Section - THE DROP ARTICLE SECTION
+   ---------------------------------------- */
+.article-section {
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--color-neutral-dark);
+}
+
+.article-section:last-child {
+    border-bottom: none;
+}
+
+.article-title {
+    margin-bottom: 15px;
+    font-size: 2rem; /* Slightly reduced title size from previous */
+}
+
+/* .article-image { /* If you add article images */
+/*     max-width: 100%;  Make images responsive */
+/*     height: auto; */
+/*     margin-bottom: 15px; */
+/*     border-radius: 5px; Optional rounded corners for images */
+/* } */
+
+.article-excerpt {
+    margin-bottom: 20px;
+}
+
+/* ----------------------------------------
+   Article Meta Information - THE DROP ARTICLE META
+   ---------------------------------------- */
+.article-meta {
+    display: flex; /* Use flexbox for meta information layout */
+    flex-wrap: wrap; /* Allow meta items to wrap on smaller screens */
+    gap: 15px; /* Spacing between meta items */
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+}
+
+.article-date,
+.article-category {
+    /* Styles for date and category - can be the same or different */
+}
+
+.article-tags {
+    /* Styles for tags container if needed */
+}
+
+.article-tag {
+    display: inline-block; /* Display tags inline */
+    background-color: var(--color-background-dark); /* Light background for tags */
+    padding: 5px 10px; /* Padding inside tags */
+    border-radius: 20px; /* Rounded tag corners */
+    margin-right: 5px; /* Spacing between tags */
+    margin-bottom: 5px; /* Spacing below tags if they wrap */
+    font-size: 0.85rem; /* Slightly smaller tag font size */
+}
+
+/* ----------------------------------------
+   CTA Button - THE DROP CTA BUTTON
+   ---------------------------------------- */
+.cta-button {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: var(--color-brand-primary);
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 5px;
+    transition: background-color 0.2s ease-in-out;
+    margin-top: 15px; /* Add margin above the button */
+}
+
+.cta-button:hover {
+    background-color: var(--color-brand-accent);
+    color: var(--color-text-primary);
+}
+
+/* ----------------------------------------
+   Responsiveness (Example - Adjust as needed)
+   ---------------------------------------- */
+/* Example Breakpoint for larger screens */
+@media (min-width: 960px) {
+    body {
+        padding: 40px;
+    }
+
+    .newsletter-container {
+        max-width: 900px;
+    }
+
+    .newsletter-title {
+        font-size: 4rem; /* Larger title on desktop */
+    }
+
+    .article-title {
+        font-size: 2.5rem; /* Larger article titles on desktop */
+    }
+}
+
+/* Smaller screens adjustments if needed (e.g., mobile) */
+@media (max-width: 640px) {
+    body {
+        padding: 15px;
+    }
+
+    .newsletter-title {
+        font-size: 2.8rem; /* Smaller title on mobile */
+    }
+
+    .article-title {
+        font-size: 1.7rem; /* Smaller article titles on mobile */
+    }
+
+    .article-meta {
+        flex-direction: column; /* Stack meta info on mobile */
+        align-items: flex-start; /* Align to start on mobile */
+    }
+}
+
+/* ----------------------------------------
+   Tailwind Integration Notes (Refer to previous notes)
+   ---------------------------------------- */
+/* ... Tailwind Integration Notes ... */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+    --radius-sm: calc(var(--radius) - 4px);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) + 4px);
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-destructive: var(--destructive);
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+
+
+/* Scroll to Top Button Styles */
+.scroll-to-top-button {
+    position: fixed; /* Fixed position relative to the viewport */
+    bottom: 20px; /* Distance from the bottom */
+    right: 20px; /* Distance from the right */
+    background-color: var(--color-brand-primary); /* Use your brand primary color */
+    color: white;
+    border: none;
+    border-radius: 50%; /* Make it circular */
+    width: 40px; /* Adjust size as needed */
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    opacity: 0; /* Initially hidden */
+    visibility: hidden; /* Initially hidden */
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    z-index: 10; /* Ensure it's above other content */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow */
 }
+
+.scroll-to-top-button--visible {
+    opacity: 1; /* Make visible when scrolled down */
+    visibility: visible; /* Make visible when scrolled down */
+}
+
+.scroll-to-top-button:hover {
+    background-color: var(--color-brand-accent); /* Accent color on hover */
+    color: var(--color-text-primary); /* Text color on hover if needed */
+}
+
+.scroll-to-top-button svg {
+    width: 20px; /* Size of the SVG icon */
+    height: 20px;
+}
+
+/* ----------------------------------------
+   Hero Image Section - THE DROP HERO
+   ---------------------------------------- */
+.hero-image-section {
+    margin-bottom: 30px; /* Space below the hero image section */
+    /* Optional: Add a background color or gradient behind the image */
+    /* background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(249,249,249,1) 100%); */
+}
+
+.hero-image {
+    width: 100%; /* Make the image take up the full width of its container */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Remove any default inline spacing */
+    object-fit: cover; /* Cover the entire area, potentially cropping the image */
+    object-position: center; /* Center the image within its container */
+    border-radius: 8px; /* Optional: Add rounded corners to the image */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+}
+
+/* For larger screens, make the hero image taller (optional) */
+@media (min-width: 768px) {
+    .hero-image {
+        height: 400px; /* Adjust as needed */
+    }
+}
+
+
