@@ -102,7 +102,7 @@ const Home = () => {
                   height={200}
                   style={{ width: "100%", height: "auto" }}
                 />
-                <p className="article-excerpt">{article.content.substring(0, 800)}...</p>
+                <p className="article-excerpt">{article.generated_content.substring(0, 800)}...</p>
                 <div className="article-meta">
                   {/* Meta information container */}
                   <span className="article-date">
