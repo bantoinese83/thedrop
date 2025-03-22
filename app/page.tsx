@@ -12,8 +12,7 @@ type Article = {
   generated_at: string
   tags?: string[]
   category: string
-  // Future enhancement: Add image URL if you want to include article images
-  // imageUrl?: string;
+  imageUrl?: string;
 }
 
 const Home = async () => {
@@ -23,13 +22,12 @@ const Home = async () => {
     <div>
       {/* Root div (needed for layout) */}
       <div className="newsletter-container">
-        {" "}
         {/* Newsletter Container */}
         {/* Newsletter Header */}
         <header className="newsletter-header">
           <h1 className="newsletter-title">
-            <span className="newsletter-title-prefix">The </span> {/* "The" part - plain text */}
-            <LineShadowText text="Drop" /> {/* "Drop" part - LineShadowText */}
+            <span className="newsletter-title-prefix">The </span>
+            <LineShadowText text="Drop" />
           </h1>
           <p className="newsletter-tagline">Your Daily Dose of Hip-Hop Culture</p>
           {/* You could add a logo here if you have one */}
@@ -48,18 +46,24 @@ const Home = async () => {
         </section>
         {articles && articles.length > 0 ? (
           <div className="articles-wrapper">
-            {" "}
             {/* Wrapper for articles for potential layout adjustments */}
             {articles.map((article) => (
               <article key={article.id} className="article-section">
-                {" "}
                 {/* Use <article> for semantic correctness */}
                 <h2 className="article-title">{article.title}</h2>
                 {/* Future enhancement: Article Image */}
-                {/* {article.imageUrl && <img src={article.imageUrl || "/placeholder.svg"} alt={article.title} className="article-image" />} */}
+                {article.imageUrl && (
+                  <Image
+                    src={article.imageUrl || "/placeholder.svg"}
+                    alt={article.title}
+                    className="article-image"
+                    width={400}
+                    height={200}
+                    style={{ width: "100%", height: "auto" }}
+                  />
+                )}
                 <p className="article-excerpt">{article.generated_content.substring(0, 800)}...</p>
                 <div className="article-meta">
-                  {" "}
                   {/* Meta information container */}
                   <span className="article-date">
                     {new Date(article.generated_at).toLocaleDateString(undefined, {
@@ -90,7 +94,7 @@ const Home = async () => {
           <p>No articles available yet. Check back soon!</p>
         )}
         <footer className="newsletter-footer">
-          <p>© {new Date().getFullYear()} TheDrop. All rights reserved.</p>
+          <p> {new Date().getFullYear()} TheDrop. All rights reserved.</p>
           <a href="/unsubscribe">Unsubscribe</a> | <a href="/privacy">Privacy Policy</a>
         </footer>
       </div>
@@ -100,4 +104,3 @@ const Home = async () => {
 }
 
 export default Home
-
