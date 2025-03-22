@@ -15,6 +15,20 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "The Drop - Hip Hop Newsletter",
   description: "Stay updated with the latest in hip-hop news, releases, and culture.",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://thedrop.com/",
+    site_name: "The Drop",
+    images: [
+      {
+        url: "https://thedrop.com/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "The Drop - Hip Hop Newsletter",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
