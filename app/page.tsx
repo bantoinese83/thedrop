@@ -38,7 +38,7 @@ const Home = async () => {
       }
 
       fetchSearchResults()
-    }, [searchQuery, articles])
+    }, [searchQuery])
 
     return (
       <div>
