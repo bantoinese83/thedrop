@@ -1,0 +1,31 @@
+<svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Dark gradient background -->
+    <defs>
+        <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#333333" />
+            <stop offset="100%" stop-color="#222222" />
+        </linearGradient>
+        <!-- Record groove pattern -->
+        <pattern id="record-grooves" patternUnits="userSpaceOnUse" width="40" height="40" patternTransform="rotate(45)">
+            <circle cx="20" cy="20" r="19" fill="none" stroke="#444444" stroke-width="1" />
+            <circle cx="20" cy="20" r="15" fill="none" stroke="#444444" stroke-width="0.5" />
+            <circle cx="20" cy="20" r="11" fill="none" stroke="#444444" stroke-width="0.5" />
+            <circle cx="20" cy="20" r="7" fill="none" stroke="#444444" stroke-width="0.5" />
+        </pattern>
+    </defs>
+
+    <!-- Main background -->
+    <rect x="0" y="0" width="400" height="200" fill="url(#bg-gradient)" rx="10" />
+
+    <!-- Record shape -->
+    <circle cx="130" cy="100" r="70" fill="url(#record-grooves)" />
+    <circle cx="130" cy="100" r="20" fill="#333333" stroke="#666666" stroke-width="1" />
+    <circle cx="130" cy="100" r="5" fill="#666666" />
+
+    <!-- The Drop branding -->
+    <text x="200" y="50" font-family="Arial, sans-serif" font-weight="bold" font-size="24" fill="white">THE</text>
+    <text x="200" y="80" font-family="Arial, sans-serif" font-weight="bold" font-size="36" fill="#ff3e4d">DROP</text>
+
+    <!-- Tagline -->
+    <text x="200" y="160" font-family="Arial, sans-serif" font-size="14" fill="#999999">No image available</text>
+</svg>
