@@ -89,6 +89,7 @@ const Home = () => {
             width={1200}
             height={600}
             style={{ width: "100%", height: "auto" }}
+            priority
           />
         </section>
         {filteredArticles && filteredArticles.length > 0 ? (
