@@ -44,8 +44,12 @@ const Home = () => {
       if (searchQuery.trim() === "") {
         setFilteredArticles(articles)
       } else {
-        const searchResults = await searchArticles(searchQuery)
-        setFilteredArticles(searchResults)
+        try {
+          const searchResults = await searchArticles(searchQuery)
+          setFilteredArticles(searchResults)
+        } catch (error) {
+          console.error("Error searching articles with new endpoint:", error)
+        }
       }
     }
 
