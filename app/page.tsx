@@ -1,9 +1,10 @@
-import { getArticles } from "../services/articleService"
+import { getArticles, searchArticles } from "../services/articleService"
 import { LineShadowText } from "../components/magicui/line-shadow-text"
 import ScrollToTopButton from "../components/ScrollToTopButton"
 
 import Image from "next/image"
 import Link from "next/link"
+import { useState, useEffect } from "react"
 
 type Article = {
   id: number
@@ -17,6 +18,25 @@ type Article = {
 
 const Home = async () => {
   const articles: Article[] | undefined = await getArticles()
+  const [searchQuery, setSearchQuery] = useState("")
+  const [filteredArticles, setFilteredArticles] = useState<Article[]>(articles || [])
+
+  const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value)
+  }
+
+  useEffect(() => {
+    const fetchSearchResults = async () => {
+      if (searchQuery.trim() === "") {
+        setFilteredArticles(articles || [])
+      } else {
+        const searchResults = await searchArticles(searchQuery)
+        setFilteredArticles(searchResults)
+      }
+    }
+
+    fetchSearchResults()
+  }, [searchQuery, articles])
 
   return (
     <div>
@@ -33,6 +53,16 @@ const Home = async () => {
           {/* You could add a logo here if you have one */}
           {/* <img src="/logo.png" alt="TheDrop Logo" className="newsletter-logo" /> */}
         </header>
+        {/* Search Input Field */}
+        <div className="search-container">
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Search articles..."
+            value={searchQuery}
+            onChange={handleSearchInputChange}
+          />
+        </div>
         {/* Hero Image Section */}
         <section className="hero-image-section">
           <Image
@@ -44,10 +74,10 @@ const Home = async () => {
             style={{ width: "100%", height: "auto" }}
           />
         </section>
-        {articles && articles.length > 0 ? (
+        {filteredArticles && filteredArticles.length > 0 ? (
           <div className="articles-wrapper">
             {/* Wrapper for articles for potential layout adjustments */}
-            {articles.map((article) => (
+            {filteredArticles.map((article) => (
               <article key={article.id} className="article-section">
                 {/* Use <article> for semantic correctness */}
                 <h2 className="article-title">{article.title}</h2>

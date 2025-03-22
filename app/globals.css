@@ -410,4 +410,27 @@ body {
     }
 }
 
+/* ----------------------------------------
+   Search Input Field - THE DROP SEARCH
+   ---------------------------------------- */
+.search-container {
+    margin-bottom: 20px; /* Space below the search container */
+    text-align: center; /* Center the search input */
+}
 
+.search-input {
+    width: 100%; /* Full width on smaller screens */
+    max-width: 400px; /* Limit width on larger screens */
+    padding: 10px 15px; /* Padding inside the input */
+    border: 1px solid var(--color-neutral-dark); /* Border color */
+    border-radius: 5px; /* Rounded corners */
+    background-color: var(--color-background-light); /* Background color */
+    color: var(--color-text-primary); /* Text color */
+    font-size: 1rem; /* Font size */
+    transition: border-color 0.2s ease-in-out; /* Smooth transition for border color */
+}
+
+.search-input:focus {
+    border-color: var(--color-brand-primary); /* Border color on focus */
+    outline: none; /* Remove default outline */
+}
