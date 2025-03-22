@@ -71,7 +71,7 @@ const Home = async () => {
                                     </div>
                                 </div>
 
-                                <Link href={`/article/${article.id}`} className="cta-button">Read More</Link>
+                                <Link href={`/article/${article.id}/page`} className="cta-button">Read More</Link>
                             </article>
                         ))}
                     </div>
