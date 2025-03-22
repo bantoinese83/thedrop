@@ -35,3 +35,15 @@ export const getArticle = async (articleId: number) => {
     }
 }
 
+export const searchArticles = async (query: string) => {
+    try {
+        const baseUrl = getBaseUrl()
+        const response = await axios.get(`${baseUrl}/articles/search`, {
+            params: { q: query }
+        })
+        return response.data
+    } catch (error) {
+        console.error("Error searching articles:", error)
+        throw error
+    }
+}
