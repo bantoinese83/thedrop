@@ -9,7 +9,7 @@ type Article = {
   title: string
   content: string
   generated_at: string
-  tags: string[]
+  tags?: string[]
   category: string
   // Future enhancement: Add image URL if you want to include article images
   // imageUrl?: string;
@@ -68,14 +68,16 @@ const Home = async () => {
                     })}
                   </span>
                   <span className="article-category">Category: {article.category}</span>
-                  <div className="article-tags">
-                    Tags:{" "}
-                    {article.tags.map((tag, index) => (
-                      <span key={index} className="article-tag">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                  {article.tags && Array.isArray(article.tags) && (
+                    <div className="article-tags">
+                      Tags:{" "}
+                      {article.tags.map((tag, index) => (
+                        <span key={index} className="article-tag">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <Link href={`/article/${article.id}`} className="cta-button">
                   Read More
@@ -97,3 +99,4 @@ const Home = async () => {
 }
 
 export default Home
+

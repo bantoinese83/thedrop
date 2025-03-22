@@ -2,30 +2,62 @@
 
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
-import { getArticle } from "@/services/articleService"
+import { getArticle, getArticles } from "@/services/articleService"
 import Link from "next/link"
+
+// Define the article type
+type Article = {
+  id: number
+  title: string
+  content: string
+  generated_at: string
+  tags?: string[]
+  category: string
+}
 
 const ArticlePage = () => {
   const params = useParams()
   const id = params.id
-  const [article, setArticle] = useState(null)
+  const [article, setArticle] = useState<Article | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    if (id) {
-      setLoading(true)
-      getArticle(Number(id))
-        .then((data) => {
-          setArticle(data)
+    async function fetchArticleData() {
+      if (!id) return
+
+      try {
+        setLoading(true)
+
+        // First, get all articles to find the one with matching ID
+        const allArticles = await getArticles()
+        const articleMetadata = allArticles.find((a) => a.id === Number(id))
+
+        if (!articleMetadata) {
+          setError("Article not found")
           setLoading(false)
-        })
-        .catch((err) => {
-          console.error("Error fetching article:", err)
-          setError("Failed to load article")
-          setLoading(false)
-        })
+          return
+        }
+
+        // Then get the content for this specific article
+        const content = await getArticle(Number(id))
+
+        // Create a complete article object by combining metadata and content
+        const fullArticle = {
+          ...articleMetadata,
+          content: typeof content === "string" ? content : content[0],
+        }
+
+        setArticle(fullArticle)
+        setLoading(false)
+      } catch (err) {
+        console.error("Error fetching article:", err)
+        setError("Failed to load article")
+        setLoading(false)
+      }
     }
+
+    fetchArticleData()
   }, [id])
 
   if (loading) {
@@ -64,27 +96,32 @@ const ArticlePage = () => {
     )
   }
 
+  // Safely format the date
+  const formattedDate = article.generated_at
+    ? new Date(article.generated_at).toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : "No date available"
+
   return (
     <div className="newsletter-container py-8">
       <article className="article-page">
         <h1 className="article-title text-4xl font-bold mb-6">{article.title}</h1>
         <div className="article-meta mb-6">
-          <span className="article-date block mb-2">
-            {new Date(article.generated_at).toLocaleDateString(undefined, {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </span>
-          <span className="article-category block mb-2">Category: {article.category}</span>
-          <div className="article-tags">
-            Tags:{" "}
-            {article.tags.map((tag, index) => (
-              <span key={index} className="article-tag">
-                {tag}
-              </span>
-            ))}
-          </div>
+          <span className="article-date block mb-2">{formattedDate}</span>
+          <span className="article-category block mb-2">Category: {article.category || "Uncategorized"}</span>
+          {article.tags && Array.isArray(article.tags) && article.tags.length > 0 && (
+            <div className="article-tags">
+              Tags:{" "}
+              {article.tags.map((tag, index) => (
+                <span key={index} className="article-tag">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
         <div className="article-content prose prose-lg max-w-none">
           <p>{article.content}</p>
