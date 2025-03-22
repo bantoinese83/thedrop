@@ -16,7 +16,7 @@ type Article = {
 }
 
 const Home = async () => {
-  const articles: Article[] = await getArticles()
+  const articles: Article[] | undefined = await getArticles()
 
   return (
     <div>
@@ -45,7 +45,7 @@ const Home = async () => {
             style={{ width: "100%", height: "auto" }}
           />
         </section>
-        {articles.length > 0 ? (
+        {articles && articles.length > 0 ? (
           <div className="articles-wrapper">
             {" "}
             {/* Wrapper for articles for potential layout adjustments */}
@@ -97,4 +97,3 @@ const Home = async () => {
 }
 
 export default Home
-
