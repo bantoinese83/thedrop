@@ -51,7 +51,6 @@ const Home = async () => {
               <article key={article.id} className="article-section">
                 {/* Use <article> for semantic correctness */}
                 <h2 className="article-title">{article.title}</h2>
-                {/* Future enhancement: Article Image */}
                 <Image
                   src={article.imageUrl || "/placeholder.svg"}
                   alt={article.title}
