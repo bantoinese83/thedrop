@@ -52,16 +52,14 @@ const Home = async () => {
                 {/* Use <article> for semantic correctness */}
                 <h2 className="article-title">{article.title}</h2>
                 {/* Future enhancement: Article Image */}
-                {article.imageUrl && (
-                  <Image
-                    src={article.imageUrl || "/placeholder.svg"}
-                    alt={article.title}
-                    className="article-image"
-                    width={400}
-                    height={200}
-                    style={{ width: "100%", height: "auto" }}
-                  />
-                )}
+                <Image
+                  src={article.imageUrl || "/placeholder.svg"}
+                  alt={article.title}
+                  className="article-image"
+                  width={400}
+                  height={200}
+                  style={{ width: "100%", height: "auto" }}
+                />
                 <p className="article-excerpt">{article.generated_content.substring(0, 800)}...</p>
                 <div className="article-meta">
                   {/* Meta information container */}
