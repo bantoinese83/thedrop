@@ -501,3 +501,52 @@ body {
         font-size: 0.9rem;
     }
 }
+
+/* ----------------------------------------
+   Animations and Micro-interactions - THE DROP ANIMATIONS
+   ---------------------------------------- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.slide-in {
+    animation: slideIn 0.5s ease-in-out;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: var(--color-brand-primary);
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 5px;
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+    margin-top: 15px; /* Add margin above the button */
+}
+
+.cta-button:hover {
+    background-color: var(--color-brand-accent);
+    color: var(--color-text-primary);
+    transform: scale(1.05);
+}

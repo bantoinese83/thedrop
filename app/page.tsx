@@ -4,7 +4,7 @@ import { getArticles, searchArticles } from "../services/articleService"
 import { LineShadowText } from "../components/magicui/line-shadow-text"
 import ScrollToTopButton from "../components/ScrollToTopButton"
 import SearchInput  from "../components/SearchInput"
-import ParticleButton  from "../components/kokonutui/particle-button"
+import ParticleButton  from "../.components/kokonutui/particle-button"
 
 import Image from "next/image"
 import Link from "next/link"
@@ -121,19 +121,19 @@ const Home = () => {
         {articles && articles.length > 0 ? (
           <div className="articles-wrapper">
             {filteredArticles.map((article) => (
-              <article key={article.id} className="article-section">
+              <article key={article.id} className="article-section slide-in">
                 {/* Use <article> for semantic correctness */}
-                <h2 className="article-title">{article.title}</h2>
+                <h2 className="article-title fade-in">{article.title}</h2>
                 <Image
                   src={article.imageUrl || "/placeholder.svg"}
                   alt={article.title}
-                  className="article-image"
+                  className="article-image fade-in"
                   width={400}
                   height={200}
                   style={{ width: "100%", height: "auto" }}
                 />
-<p className="article-excerpt">{article.excerpt ? article.excerpt : article.generated_content ? article.generated_content.substring(0, 800) + "..." : "No excerpt available."}</p>
-            <div className="article-meta">
+<p className="article-excerpt fade-in">{article.excerpt ? article.excerpt : article.generated_content ? article.generated_content.substring(0, 800) + "..." : "No excerpt available."}</p>
+            <div className="article-meta fade-in">
                   {/* Meta information container */}
                   <span className="article-date">
                     {new Date(article.generated_at).toLocaleDateString(undefined, {

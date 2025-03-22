@@ -34,7 +34,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
       </div>
       <input
         type="text"
-        className={`search-input ${className}`}
+        className={`search-input ${className} fade-in`}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
@@ -44,4 +44,3 @@ const SearchInput: React.FC<SearchInputProps> = ({
 }
 
 export default SearchInput
-
