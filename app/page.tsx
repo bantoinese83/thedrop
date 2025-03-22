@@ -1,93 +1,100 @@
-import { getArticles } from '../services/articleService';
-import { LineShadowText } from '../components/magicui/line-shadow-text';
-import ScrollToTopButton from '../components/ScrollToTopButton';
-import Image from 'next/image';
-import Link from 'next/link';
-
+import { getArticles } from "../services/articleService"
+import { LineShadowText } from "../components/magicui/line-shadow-text"
+import ScrollToTopButton from "../components/ScrollToTopButton"
+import Image from "next/image"
+import Link from "next/link"
 
 type Article = {
-    id: number;
-    title: string;
-    content: string;
-    generated_at: string;
-    tags: string[];
-    category: string;
-    // Future enhancement: Add image URL if you want to include article images
-    // imageUrl?: string;
-};
+  id: number
+  title: string
+  content: string
+  generated_at: string
+  tags: string[]
+  category: string
+  // Future enhancement: Add image URL if you want to include article images
+  // imageUrl?: string;
+}
 
 const Home = async () => {
-    const articles: Article[] = await getArticles();
+  const articles: Article[] = await getArticles()
 
-    return (
-        <div>{/* Root div (needed for layout) */}
-            <div className="newsletter-container"> {/* Newsletter Container */}
+  return (
+    <div>
+      {/* Root div (needed for layout) */}
+      <div className="newsletter-container">
+        {" "}
+        {/* Newsletter Container */}
+        {/* Newsletter Header */}
+        <header className="newsletter-header">
+          <h1 className="newsletter-title">
+            <span className="newsletter-title-prefix">The </span> {/* "The" part - plain text */}
+            <LineShadowText text="Drop" /> {/* "Drop" part - LineShadowText */}
+          </h1>
+          <p className="newsletter-tagline">Your Daily Dose of Hip-Hop Culture</p>
+          {/* You could add a logo here if you have one */}
+          {/* <img src="/logo.png" alt="TheDrop Logo" className="newsletter-logo" /> */}
+        </header>
+        {/* Hero Image Section */}
+        <section className="hero-image-section">
+          <Image
+            src="/images/hero-image.jpg" // Replace with your actual image URL
+            alt="TheDrop - Hip Hop Newsletter"
+            className="hero-image"
+            width={1200}
+            height={600}
+            style={{ width: "100%", height: "auto" }}
+          />
+        </section>
+        {articles.length > 0 ? (
+          <div className="articles-wrapper">
+            {" "}
+            {/* Wrapper for articles for potential layout adjustments */}
+            {articles.map((article) => (
+              <article key={article.id} className="article-section">
+                {" "}
+                {/* Use <article> for semantic correctness */}
+                <h2 className="article-title">{article.title}</h2>
+                {/* Future enhancement: Article Image */}
+                {/* {article.imageUrl && <img src={article.imageUrl || "/placeholder.svg"} alt={article.title} className="article-image" />} */}
+                <p className="article-excerpt">{article.content.substring(0, 200)}...</p>
+                <div className="article-meta">
+                  {" "}
+                  {/* Meta information container */}
+                  <span className="article-date">
+                    {new Date(article.generated_at).toLocaleDateString(undefined, {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </span>
+                  <span className="article-category">Category: {article.category}</span>
+                  <div className="article-tags">
+                    Tags:{" "}
+                    {article.tags.map((tag, index) => (
+                      <span key={index} className="article-tag">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <Link href={`/article/${article.id}`} className="cta-button">
+                  Read More
+                </Link>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <p>No articles available yet. Check back soon!</p>
+        )}
+        <footer className="newsletter-footer">
+          <p>© {new Date().getFullYear()} TheDrop. All rights reserved.</p>
+          <a href="/unsubscribe">Unsubscribe</a> | <a href="/privacy">Privacy Policy</a>
+        </footer>
+      </div>
+      <ScrollToTopButton />
+    </div>
+  )
+}
 
-                {/* Newsletter Header */}
-                <header className="newsletter-header">
-                    <h1 className="newsletter-title">
-                        <span className="newsletter-title-prefix">The </span> {/* "The" part - plain text */}
-                        <LineShadowText text="Drop" /> {/* "Drop" part - LineShadowText */}
-                    </h1>
-                    <p className="newsletter-tagline">Your Daily Dose of Hip-Hop Culture</p>
-                    {/* You could add a logo here if you have one */}
-                    {/* <img src="/logo.png" alt="TheDrop Logo" className="newsletter-logo" /> */}
-                </header>
+export default Home
 
-                {/* Hero Image Section */}
-                <section className="hero-image-section">
-                    <Image
-                        src="/images/hero-image.jpg" // Replace with your actual image URL
-                        alt="TheDrop - Hip Hop Newsletter"
-                        className="hero-image"
-                        width={1200}
-                        height={600}
-                        style={{width: '100%', height: 'auto'}}
-                    />
-
-
-                </section>
-
-                {articles.length > 0 ? (
-                    <div className="articles-wrapper"> {/* Wrapper for articles for potential layout adjustments */}
-                        {articles.map((article) => (
-                            <article key={article.id} className="article-section"> {/* Use <article> for semantic correctness */}
-                                <h2 className="article-title">{article.title}</h2>
-                                {/* Future enhancement: Article Image */}
-                                {/* {article.imageUrl && <img src={article.imageUrl} alt={article.title} className="article-image" />} */}
-                                <p className="article-excerpt">{article.content.substring(0, 200)}...</p>
-
-                                <div className="article-meta"> {/* Meta information container */}
-                                    <span className="article-date">
-                                        {new Date(article.generated_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
-                                    </span>
-                                    <span className="article-category">
-                                        Category: {article.category}
-                                    </span>
-                                    <div className="article-tags">
-                                        Tags: {article.tags.map((tag, index) => (
-                                            <span key={index} className="article-tag">{tag}</span>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                <Link href={`/article/${article.id}/page`} className="cta-button">Read More</Link>
-                            </article>
-                        ))}
-                    </div>
-                ) : (
-                    <p>No articles available yet. Check back soon!</p>
-                )}
-
-                <footer className="newsletter-footer">
-                    <p>© {new Date().getFullYear()} TheDrop. All rights reserved.</p>
-                    <a href="/unsubscribe">Unsubscribe</a> | <a href="/privacy">Privacy Policy</a>
-
-                </footer>
-            </div>
-            <ScrollToTopButton />
-        </div>
-    );
-};
-
-export default Home;
